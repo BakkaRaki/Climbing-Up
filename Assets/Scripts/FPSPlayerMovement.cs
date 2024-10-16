@@ -44,6 +44,7 @@ public class FPSPlayerMovement : MonoBehaviour
     {
         //ground check
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatisGround);
+        //Debug.DrawRay(rb.transform.position, Vector3.down, Color.red,100, false);
 
         MyInput();
         SpeedControl();
@@ -57,6 +58,8 @@ public class FPSPlayerMovement : MonoBehaviour
         {
             rb.drag = 0;
         }
+
+        //Debug.Log("readyToJump is " + readyToJump + " grounded is " + grounded);
     }
 
     private void FixedUpdate()

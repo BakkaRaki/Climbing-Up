@@ -25,7 +25,7 @@ public class MovePlatform : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (currentMoveStyle != 0 || currentMoveStyle != 1 || currentMoveStyle != 2)    Debug.Log("missing currentMoveStyle");
+        if (currentMoveStyle != 0 && currentMoveStyle != 1 && currentMoveStyle != 2)    Debug.Log("missing currentMoveStyle");
         if (currentMoveStyle == 0) MoveX();
         if (currentMoveStyle == 1) MoveY();
         if (currentMoveStyle == 2) MoveZ();
