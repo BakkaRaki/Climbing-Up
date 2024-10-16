@@ -10,13 +10,13 @@ public class BounceTrigger : MonoBehaviour
     private Rigidbody player;
 
     //private GameObject bounceObj;
-    //private Vector3 bounceDir;
+    public Vector3 bounceDir;
 
     // Start is called before the first frame update
     void Start()
     {
         //bounceObj = GameObject.FindWithTag("bounceTrigger");
-        //bounceDir = bounceObj.transform.position;
+        bounceDir = new Vector3(0, 1, 0);
     }
 
     // Update is called once per frame
@@ -27,7 +27,13 @@ public class BounceTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        player = other.GetComponentInParent<Rigidbody>();
-        player.AddForce(new Vector3(0, 1, 1) * bouncePower, ForceMode.Impulse);     
+        ResetSpeedAndImpulse();
+    }
+
+    private void ResetSpeedAndImpulse()
+    {
+        player = GameObject.FindWithTag("Player").GetComponentInParent<Rigidbody>();
+        player.velocity = Vector3.zero;
+        player.AddForce(bounceDir * bouncePower, ForceMode.Impulse);
     }
 }

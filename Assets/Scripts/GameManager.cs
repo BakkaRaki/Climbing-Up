@@ -7,7 +7,6 @@ public class GameManager : MonoBehaviour
     private GameObject player;
 
     private Vector3 initPlayerPos;
-    private Vector3 storePos;
 
     // Start is called before the first frame update
     void Start()
@@ -28,12 +27,12 @@ public class GameManager : MonoBehaviour
     {
         if(player.transform.position.y < 0)
         {
-            player.transform.position = storePos;
+            player.transform.position = initPlayerPos;
         }
     }
 
     public void SavePosition(Vector3 pos)
     {
-        storePos = pos;
+        initPlayerPos = pos;
     }
 }
