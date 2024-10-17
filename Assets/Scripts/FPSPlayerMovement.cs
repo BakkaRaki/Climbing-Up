@@ -23,6 +23,9 @@ public class FPSPlayerMovement : MonoBehaviour
     public LayerMask whatisGround;
     private bool grounded;
 
+    [Header("Sound")]
+    public AudioClip jumpSound;
+    private AudioSource playerAudio;
 
     public Transform orientation;
 
@@ -37,6 +40,7 @@ public class FPSPlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         ResetJump();
+        playerAudio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -78,7 +82,7 @@ public class FPSPlayerMovement : MonoBehaviour
             readyToJump = false;
 
             Jump();
-
+            playerAudio.PlayOneShot(jumpSound, 2.0f);
             Invoke(nameof(ResetJump), jumpCoolDown);
         }
     }

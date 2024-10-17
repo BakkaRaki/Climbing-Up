@@ -6,6 +6,9 @@ using UnityEngine.UIElements;
 
 public class SavePoint : MonoBehaviour
 {
+
+
+
     private GameObject player;
     private GameManager gameManagerScript;
 
@@ -16,6 +19,7 @@ public class SavePoint : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player");
         gameManagerScript = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
+
     }
 
     // Update is called once per frame
