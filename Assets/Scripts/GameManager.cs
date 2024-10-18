@@ -9,24 +9,33 @@ using static TPSPlayerCamera;
 
 public class GameManager : MonoBehaviour
 {
+
+    public bool isGameActive; 
+    private int roundTime;
+    private int playerTime;
+
+    [Header("UI")]
     public GameObject titleScreen;
     public Button restartButton;
     public Button startButton;
     public TextMeshProUGUI gameOverText;
-    public bool isGameActive;
+    public TextMeshProUGUI roundTimeText;
+    public TextMeshProUGUI playerTimeText;   
 
+    [Header("Player")]
     private GameObject player;
     private Vector3 initPlayerPos;
 
-
+    [Header("Sounds")]
     public AudioClip deathSound;
     public AudioClip saveSound;
     private AudioSource managerAudio;
 
     [Header("Cameras")]
-    //public GameObject gameCameraHolder;
-    //public GameObject uiCamera;
     public TPSPlayerCamera cameraScript;
+
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -54,7 +63,7 @@ public class GameManager : MonoBehaviour
         {
             player.transform.position = initPlayerPos;
             managerAudio.PlayOneShot(deathSound, 3.0f);
-            GameOver();
+            //GameOver();
         }
     }
 
@@ -79,12 +88,54 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    IEnumerator RoundTimer()
+    {
+        while (isGameActive)
+        {
+            yield return new WaitForSeconds(1);
+            roundTime--;
+            roundTimeText.text = "Time Left: " + roundTime;
+            if (roundTime <= 0)
+            {
+                GameOver();
+                yield break;
+            }
+        }
+    }
+
+    IEnumerator PlayerTimer()
+    {
+        while (isGameActive)
+        {
+            yield return new WaitForSeconds(1);
+            playerTime++;
+            playerTimeText.text = "Your Time: " + playerTime;
+            if (roundTime <= 0)
+            {
+                GameOver();
+                yield break;
+            }
+        }
+    }
+
     public void StartMyGame()
     {
         isGameActive = true;
+
+        // camera ready
         ChangeMouseState();
         cameraScript.SwitchCameraStyle(CameraStyle.Basic);
+
+        //UI ready
+        roundTimeText.gameObject.SetActive(true);
+        playerTimeText.gameObject.SetActive(true);
         titleScreen.gameObject.SetActive(false);
+
+        //initialize time setting
+        roundTime = 600;
+        playerTime = 0;
+        StartCoroutine(RoundTimer());
+        StartCoroutine(PlayerTimer());
 
         //initialize player and its position
         player = GameObject.FindWithTag("Player");
@@ -103,7 +154,7 @@ public class GameManager : MonoBehaviour
         isGameActive = false;
         ChangeMouseState();
         cameraScript.SwitchCameraStyle(CameraStyle.UI);
-
+        roundTimeText.gameObject.SetActive(false);
         gameOverText.gameObject.SetActive(true);
         restartButton.gameObject.SetActive(true);
     }

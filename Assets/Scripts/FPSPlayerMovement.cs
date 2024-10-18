@@ -6,13 +6,10 @@ public class FPSPlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
     public float moveSpeed;
-
     public float groundDrag;
-
     public float jumpForce;
     public float jumpCoolDown;
     public float airMultiplier;
-
     private bool readyToJump;
 
     [Header("Keybinds")]
@@ -34,6 +31,8 @@ public class FPSPlayerMovement : MonoBehaviour
     private Vector3 moveDir;
     private Rigidbody rb;
 
+    private GameManager gameManagerScript;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,6 +40,7 @@ public class FPSPlayerMovement : MonoBehaviour
         rb.freezeRotation = true;
         ResetJump();
         playerAudio = GetComponent<AudioSource>();
+        gameManagerScript = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -77,7 +77,7 @@ public class FPSPlayerMovement : MonoBehaviour
         verticalInput = Input.GetAxisRaw("Vertical");
 
         //when to jump
-        if(Input.GetKeyDown(jumpKey) && readyToJump && grounded)
+        if(Input.GetKeyDown(jumpKey) && readyToJump && grounded && gameManagerScript.isGameActive)
         {
             readyToJump = false;
 
@@ -93,13 +93,13 @@ public class FPSPlayerMovement : MonoBehaviour
         moveDir = orientation.forward * verticalInput + orientation.right * honrizontalInput;
 
         //on ground
-        if(grounded)
+        if(grounded && gameManagerScript.isGameActive)
         {
             rb.AddForce(moveDir.normalized * moveSpeed * 10f, ForceMode.Force);
         }
 
         //in air
-        else if (!grounded)
+        else if (!grounded && gameManagerScript.isGameActive)
         {
             rb.AddForce(moveDir.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
         }
