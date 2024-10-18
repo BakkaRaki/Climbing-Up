@@ -17,6 +17,7 @@ public class TPSPlayerCamera : MonoBehaviour
     public GameObject basicCam;
     public GameObject combatCam;
     public GameObject topDownCam;
+    public GameObject uiCam;
 
 
     public CameraStyle currentStyle;
@@ -25,23 +26,23 @@ public class TPSPlayerCamera : MonoBehaviour
     {
         Basic,
         Combat,
-        Topdown
+        Topdown,
+        UI
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        //switch styles
+        //switch styles on keyboard
         if(Input.GetKeyDown(KeyCode.Alpha1))    SwitchCameraStyle(CameraStyle.Basic);
-        if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchCameraStyle(CameraStyle.Combat);
-        if (Input.GetKeyDown(KeyCode.Alpha3)) SwitchCameraStyle(CameraStyle.Topdown);
+        if (Input.GetKeyDown(KeyCode.Alpha2))   SwitchCameraStyle(CameraStyle.Combat);
+        if (Input.GetKeyDown(KeyCode.Alpha3))   SwitchCameraStyle(CameraStyle.Topdown);
 
         //rotate orientation
         Vector3 viewDir = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);
@@ -71,16 +72,17 @@ public class TPSPlayerCamera : MonoBehaviour
 
     }
 
-    private void SwitchCameraStyle(CameraStyle newStyle)
+    public void SwitchCameraStyle(CameraStyle newStyle)
     {
         combatCam.SetActive(false);
         basicCam.SetActive(false);
-        topDownCam.SetActive(false);    
+        topDownCam.SetActive(false);
+        uiCam.SetActive(false);
 
-        if(newStyle == CameraStyle.Basic) { basicCam.SetActive(true); }
+        if (newStyle == CameraStyle.Basic) { basicCam.SetActive(true); }
         if (newStyle == CameraStyle.Combat) { combatCam.SetActive(true); }
         if (newStyle == CameraStyle.Topdown) { topDownCam.SetActive(true); }
-
+        if(newStyle == CameraStyle.UI) { uiCam.SetActive(true);}
 
         currentStyle = newStyle;
     }
