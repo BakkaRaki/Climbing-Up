@@ -12,13 +12,15 @@ public class GameManager : MonoBehaviour
 
     public bool isGameActive; 
     private int roundTime;
-    private int playerTime;
+    public int playerTime;
+    private int fatestTime;
 
     [Header("UI")]
-    public GameObject titleScreen;
+    public GameObject startScreen;
+    public GameObject endScreen;
     public Button restartButton;
     public Button startButton;
-    public TextMeshProUGUI gameOverText;
+    public TextMeshProUGUI passTimeText;
     public TextMeshProUGUI roundTimeText;
     public TextMeshProUGUI playerTimeText;   
 
@@ -40,7 +42,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        titleScreen.gameObject.SetActive(true);
+        startScreen.gameObject.SetActive(true);
         managerAudio = GetComponent<AudioSource>();
         cameraScript = GameObject.FindWithTag("UICamera").GetComponent<TPSPlayerCamera>();
         cameraScript.SwitchCameraStyle(CameraStyle.UI);
@@ -71,6 +73,15 @@ public class GameManager : MonoBehaviour
     {
         initPlayerPos = pos;
         managerAudio.PlayOneShot(saveSound, 1.0f);
+    }
+
+    public void SavePassTime(int time)
+    {
+        if(time < fatestTime)
+        {
+            fatestTime = time;
+        }
+
     }
 
     private void ChangeMouseState()
@@ -112,6 +123,7 @@ public class GameManager : MonoBehaviour
             playerTimeText.text = "Your Time: " + playerTime;
             if (roundTime <= 0)
             {
+                SavePassTime(playerTime);
                 GameOver();
                 yield break;
             }
@@ -129,11 +141,13 @@ public class GameManager : MonoBehaviour
         //UI ready
         roundTimeText.gameObject.SetActive(true);
         playerTimeText.gameObject.SetActive(true);
-        titleScreen.gameObject.SetActive(false);
+        startScreen.gameObject.SetActive(false);
+        endScreen.gameObject.SetActive(false);
 
         //initialize time setting
         roundTime = 600;
         playerTime = 0;
+        fatestTime = 600;
         StartCoroutine(RoundTimer());
         StartCoroutine(PlayerTimer());
 
@@ -155,7 +169,7 @@ public class GameManager : MonoBehaviour
         ChangeMouseState();
         cameraScript.SwitchCameraStyle(CameraStyle.UI);
         roundTimeText.gameObject.SetActive(false);
-        gameOverText.gameObject.SetActive(true);
-        restartButton.gameObject.SetActive(true);
+        endScreen.gameObject.SetActive(true);
+        passTimeText.text = "Your Pass Time is" + fatestTime;
     }
 }
