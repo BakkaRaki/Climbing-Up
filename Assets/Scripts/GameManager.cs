@@ -18,14 +18,14 @@ public class GameManager : MonoBehaviour
     [Header("UI")]
     public GameObject startScreen;
     public GameObject endScreen;
-    public Button restartButton;
-    public Button startButton;
+    public GameObject goalScreen;
     public TextMeshProUGUI passTimeText;
     public TextMeshProUGUI roundTimeText;
     public TextMeshProUGUI playerTimeText;   
 
     [Header("Player")]
     private GameObject player;
+    private Rigidbody playerRb;
     private Vector3 initPlayerPos;
 
     [Header("Sounds")]
@@ -63,9 +63,10 @@ public class GameManager : MonoBehaviour
     {
         if(player.transform.position.y < 0 )
         {
+            playerRb.velocity = Vector3.zero;
             player.transform.position = initPlayerPos;
             managerAudio.PlayOneShot(deathSound, 3.0f);
-            //GameOver();
+            //Goal();
         }
     }
 
@@ -123,7 +124,6 @@ public class GameManager : MonoBehaviour
             playerTimeText.text = "Your Time: " + playerTime;
             if (roundTime <= 0)
             {
-                SavePassTime(playerTime);
                 GameOver();
                 yield break;
             }
@@ -153,6 +153,7 @@ public class GameManager : MonoBehaviour
 
         //initialize player and its position
         player = GameObject.FindWithTag("Player");
+        playerRb = player.GetComponent<Rigidbody>();
         initPlayerPos = new Vector3(0, 2, 0);
         player.transform.position = initPlayerPos;
 
@@ -168,8 +169,19 @@ public class GameManager : MonoBehaviour
         isGameActive = false;
         ChangeMouseState();
         cameraScript.SwitchCameraStyle(CameraStyle.UI);
+
         roundTimeText.gameObject.SetActive(false);
         endScreen.gameObject.SetActive(true);
-        passTimeText.text = "Your Pass Time is" + fatestTime;
+    }
+
+    public void Goal()
+    {
+        isGameActive = false;
+        ChangeMouseState();
+
+        roundTimeText.gameObject.SetActive(false);
+        goalScreen.gameObject.SetActive(true);
+
+        passTimeText.text = "Your Pass Time is: " + fatestTime;
     }
 }

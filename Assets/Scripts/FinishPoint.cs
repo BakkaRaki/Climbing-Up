@@ -23,6 +23,6 @@ public class FinishPoint : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         gameManagerScript.SavePassTime(gameManagerScript.playerTime);
-        gameManagerScript.GameOver();
+        gameManagerScript.Goal();
     }
 }
