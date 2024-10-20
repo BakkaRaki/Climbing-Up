@@ -9,6 +9,10 @@ public class BounceTrigger : MonoBehaviour
 
     private Rigidbody player;
 
+    [Header("Sound")]
+    public AudioClip bounceSound;
+    private AudioSource bounceAudio;
+
     //private GameObject bounceObj;
     public Vector3 bounceDir;
 
@@ -17,6 +21,7 @@ public class BounceTrigger : MonoBehaviour
     {
         //bounceObj = GameObject.FindWithTag("bounceTrigger");
         bounceDir = new Vector3(0, 1, 0);
+        bounceAudio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -35,5 +40,6 @@ public class BounceTrigger : MonoBehaviour
         player = GameObject.FindWithTag("Player").GetComponentInParent<Rigidbody>();
         player.velocity = Vector3.zero;
         player.AddForce(bounceDir * bouncePower, ForceMode.Impulse);
-    }
+        bounceAudio.PlayOneShot(bounceSound, 1f);
+}
 }

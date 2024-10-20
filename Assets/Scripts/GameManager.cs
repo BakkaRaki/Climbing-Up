@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
     //Reset poisition when player drop
     private void ResetPlayer()
     {
-        if(player.transform.position.y < 0 )
+        if(player.transform.position.y < 3 )
         {
             playerRb.velocity = Vector3.zero;
             player.transform.position = initPlayerPos;
@@ -154,7 +154,7 @@ public class GameManager : MonoBehaviour
         //initialize player and its position
         player = GameObject.FindWithTag("Player");
         playerRb = player.GetComponent<Rigidbody>();
-        initPlayerPos = new Vector3(0, 2, 0);
+        initPlayerPos = new Vector3(81, 4, 57);   
         player.transform.position = initPlayerPos;
 
     }
@@ -171,6 +171,7 @@ public class GameManager : MonoBehaviour
         cameraScript.SwitchCameraStyle(CameraStyle.UI);
 
         roundTimeText.gameObject.SetActive(false);
+        playerTimeText.gameObject.SetActive(false);
         endScreen.gameObject.SetActive(true);
     }
 
@@ -180,8 +181,9 @@ public class GameManager : MonoBehaviour
         ChangeMouseState();
 
         roundTimeText.gameObject.SetActive(false);
+        playerTimeText.gameObject.SetActive(false);
         goalScreen.gameObject.SetActive(true);
 
-        passTimeText.text = "Your Pass Time is: " + fatestTime;
+        passTimeText.text = "Your Pass Time is:  " + fatestTime + " s";
     }
 }

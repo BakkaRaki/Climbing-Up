@@ -10,7 +10,7 @@ public class SavePoint : MonoBehaviour
     private GameObject player;
     private GameManager gameManagerScript;
 
-    private float rotateSpeed = 20f;
+    private float rotateSpeed = 60f;
 
     // Start is called before the first frame update
     void Start()
