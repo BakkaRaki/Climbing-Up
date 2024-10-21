@@ -25,8 +25,8 @@ public class TPSPlayerCamera : MonoBehaviour
     public enum CameraStyle
     {
         Basic,
-        Combat,
-        Topdown,
+        Combat, //not used 
+        Topdown,    //not used
         UI
     }
 
